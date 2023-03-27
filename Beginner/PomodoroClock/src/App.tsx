@@ -1,12 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, TextInput, View} from 'react-native';
+
+import {
+  Container,
+  ContainerTitle,
+  TextSession,
+  ContainerButtons,
+} from './styles';
+
+import ButtonTime from './Components/ButtonTime';
+import Clock from './Components/Clock';
+import ButtonActions from './Components/ButtonActions';
 
 function App() {
   const [time, setTime] = useState(1500);
   const [minutos, setMinutos] = useState('');
   const [segundos, setSegundos] = useState('');
   const [running, setRunning] = useState(false);
-  const [minPorc, setMinPorc] = useState(1500);
+  const [initTime, setInitTime] = useState(1500);
+  const [session, setSession] = useState(1);
 
   useEffect(() => {
     console.log(running);
@@ -27,74 +38,34 @@ function App() {
     setRunning(false);
   }
 
-  console.log(Math.ceil((time * 100) / minPorc));
-
   return (
-    <View>
-      <TextInput
-        placeholder="insert minutos - padrao 25:00"
-        keyboardType="numeric"
-        onChangeText={text => setMinutos(text)}
-        value={minutos}
-      />
-      <TextInput
-        placeholder="insert Segundos - padrao 00:00"
-        keyboardType="numeric"
-        onChangeText={text => setSegundos(text)}
-        value={segundos}
-      />
-      <Button
-        title="Change Time"
-        onPress={() => {
-          const newTime = parseInt(minutos) * 60 + parseInt(segundos);
-          setTime(newTime);
-          setMinPorc(newTime);
-        }}
-      />
-      <Text>Sessão 1</Text>
-      <Text>
-        {Math.floor(time / 60).toLocaleString('en-US', {
-          minimumIntegerDigits: 2,
-        })}
-        :
-        {(time % 60).toLocaleString('en-US', {
-          minimumIntegerDigits: 2,
-        })}
-      </Text>
-      <View>
-        <View style={{backgroundColor: '#aaa', width: '100%', height: 20}}>
-          <View
-            style={{
-              backgroundColor: 'purple',
-              width: `${Math.ceil((time * 100) / minPorc)}%`,
-              height: 20,
-            }}
-          />
-        </View>
-      </View>
+    <Container>
+      <ContainerTitle>
+        <TextSession>Session {session}</TextSession>
+      </ContainerTitle>
 
-      <Button
-        title="Start"
-        onPress={() => {
-          if (!running) {
-            setRunning(true);
+      <ContainerButtons>
+        <ButtonTime title="Time" timeSession={'17:30'} />
+        <ButtonTime title="Break" timeSession={'05:00'} />
+      </ContainerButtons>
+
+      <Clock time={time} initTime={initTime} />
+      <ContainerButtons>
+        <ButtonActions
+          title={running ? 'Pause' : 'Start'}
+          handleTime={
+            running ? () => setRunning(false) : () => setRunning(true)
           }
-        }}
-      />
-      <Button
-        title="Pause"
-        onPress={() => {
-          setRunning(false);
-        }}
-      />
-      <Button
-        title="Reset"
-        onPress={() => {
-          setRunning(false);
-          setTime(minPorc);
-        }}
-      />
-    </View>
+        />
+        <ButtonActions
+          title="Reset"
+          handleTime={() => {
+            setRunning(false);
+            setTime(initTime);
+          }}
+        />
+      </ContainerButtons>
+    </Container>
   );
 }
 
