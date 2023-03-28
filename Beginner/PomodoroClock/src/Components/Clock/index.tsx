@@ -1,6 +1,8 @@
 import React from 'react';
 
-import {Container, Text, ProgressTotal, ProgressActual} from './styles';
+import ClockCircle from './ClockCircle';
+
+import {Container, Text} from './styles';
 
 interface ClockProps {
   time: number;
@@ -19,9 +21,7 @@ const Clock = ({time, initTime}: ClockProps) => {
           minimumIntegerDigits: 2,
         })}
       </Text>
-      <ProgressTotal>
-        <ProgressActual progress={Math.ceil((time * 100) / initTime)} />
-      </ProgressTotal>
+      <ClockCircle percentage={Math.ceil((time * 100) / initTime)} />
     </Container>
   );
 };

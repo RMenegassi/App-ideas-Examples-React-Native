@@ -12,11 +12,11 @@ import Clock from './Components/Clock';
 import ButtonActions from './Components/ButtonActions';
 
 function App() {
-  const [time, setTime] = useState(1500);
+  const [time, setTime] = useState(60);
   const [minutos, setMinutos] = useState('');
   const [segundos, setSegundos] = useState('');
   const [running, setRunning] = useState(false);
-  const [initTime, setInitTime] = useState(1500);
+  const [initTime, setInitTime] = useState(60);
   const [session, setSession] = useState(1);
 
   useEffect(() => {
