@@ -12,11 +12,11 @@ import Clock from './Components/Clock';
 import ButtonActions from './Components/ButtonActions';
 
 function App() {
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState(10);
   const [minutos, setMinutos] = useState('');
   const [segundos, setSegundos] = useState('');
   const [running, setRunning] = useState(false);
-  const [initTime, setInitTime] = useState(60);
+  const [initTime, setInitTime] = useState(10);
   const [session, setSession] = useState(1);
 
   useEffect(() => {
@@ -35,13 +35,22 @@ function App() {
   }, [running]);
 
   if (time <= 0 && running === true) {
-    setRunning(false);
+    if (initTime !== 10) {
+      setTime(10);
+      setInitTime(10);
+      setSession(session + 1);
+    } else {
+      setTime(5);
+      setInitTime(5);
+    }
   }
 
   return (
     <Container>
       <ContainerTitle>
-        <TextSession>Session {session}</TextSession>
+        <TextSession>
+          {initTime === 5 ? 'Break' : `Sessão ${session}`}
+        </TextSession>
       </ContainerTitle>
 
       <ContainerButtons>
