@@ -14,6 +14,7 @@
     "@types/styled-components-react-native": "^5.2.1",
     "react": "18.2.0",
     "react-native": "0.71.4",
+    "react-native-sound": "^0.11.2",
     "styled-components": "^5.3.9"
   },
   "devDependencies": {

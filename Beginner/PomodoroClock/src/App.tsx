@@ -11,10 +11,10 @@ import ButtonTime from './Components/ButtonTime';
 import Clock from './Components/Clock';
 import ButtonActions from './Components/ButtonActions';
 
+import {playPause} from './utils/sound';
+
 function App() {
   const [time, setTime] = useState(10);
-  const [minutos, setMinutos] = useState('');
-  const [segundos, setSegundos] = useState('');
   const [running, setRunning] = useState(false);
   const [initTime, setInitTime] = useState(10);
   const [session, setSession] = useState(1);
@@ -35,14 +35,19 @@ function App() {
   }, [running]);
 
   if (time <= 0 && running === true) {
-    if (initTime !== 10) {
-      setTime(10);
-      setInitTime(10);
-      setSession(session + 1);
-    } else {
-      setTime(5);
-      setInitTime(5);
-    }
+    setRunning(false);
+    playPause();
+    setTimeout(() => {
+      if (initTime !== 10) {
+        setTime(10);
+        setInitTime(10);
+        setSession(session + 1);
+      } else {
+        setTime(5);
+        setInitTime(5);
+      }
+      setRunning(true);
+    }, 1000);
   }
 
   return (
@@ -62,12 +67,14 @@ function App() {
       <ContainerButtons>
         <ButtonActions
           title={running ? 'Pause' : 'Start'}
+          disabled={time === 0 ? true : false}
           handleTime={
             running ? () => setRunning(false) : () => setRunning(true)
           }
         />
         <ButtonActions
           title="Reset"
+          disabled={time === 0 ? true : false}
           handleTime={() => {
             setRunning(false);
             setTime(initTime);

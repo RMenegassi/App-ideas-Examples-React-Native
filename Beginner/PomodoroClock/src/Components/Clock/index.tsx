@@ -12,7 +12,7 @@ interface ClockProps {
 const Clock = ({time, initTime}: ClockProps) => {
   return (
     <Container>
-      <Text>
+      <Text final={time === 0 ? true : false}>
         {Math.floor(time / 60).toLocaleString('en-US', {
           minimumIntegerDigits: 2,
         })}
